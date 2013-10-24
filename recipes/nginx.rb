@@ -22,6 +22,13 @@ node.set['nginx']['default_site_enabled'] = node['kibana']['nginx']['enable_defa
 
 include_recipe "nginx"
 
+es_instances = node[:opsworks][:layers][:elasticsearch][:instances]
+es_hosts = es_instances.map{ |name, attrs| attrs['private_ip'] }
+
+unless es_hosts.empty?
+  node.set['kibana']['es_server'] = es_hosts.first
+end
+
 template "/etc/nginx/sites-available/kibana" do
   source node['kibana']['nginx']['template']
   cookbook node['kibana']['nginx']['template_cookbook']
