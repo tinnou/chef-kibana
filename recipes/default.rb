@@ -20,9 +20,11 @@
 include_recipe "git"
 
 unless Chef::Config[:solo]
-  es_server_results = search(:node, "roles:#{node['kibana']['es_role']} AND chef_environment:#{node.chef_environment}")
-  unless es_server_results.empty?
-    node.set['kibana']['es_server'] = es_server_results[0]['ipaddress']
+  es_instances = node[:opsworks][:layers][:elasticsearch][:instances]
+  es_hosts = es_instances.map{ |name, attrs| attrs['private_ip'] }
+
+  unless es_hosts.empty?
+    node.set['kibana']['es_server'] = es_hosts.first
   end
 end
 
