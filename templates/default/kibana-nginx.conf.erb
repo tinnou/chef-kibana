@@ -14,6 +14,10 @@ server {
   }
 
   location ~ ^/_aliases$ {
+    <% if node['kibana']['web_user'] %>
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/htpasswd;
+    <% end %>
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
     <% if node[:kibana][:es_user] %>
@@ -21,6 +25,10 @@ server {
     <% end %>
   }
   location ~ ^/_nodes$ {
+    <% if node['kibana']['web_user'] %>
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/htpasswd;
+    <% end %>
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
     <% if node[:kibana][:es_user] %>
@@ -28,6 +36,10 @@ server {
     <% end %>
   }
   location ~ ^/.*/_search$ {
+    <% if node['kibana']['web_user'] %>
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/htpasswd;
+    <% end %>
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
     <% if node[:kibana][:es_user] %>
@@ -35,6 +47,10 @@ server {
     <% end %>
   }
   location ~ ^/.*/_mapping$ {
+    <% if node['kibana']['web_user'] %>
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/htpasswd;
+    <% end %>
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
     <% if node[:kibana][:es_user] %>
@@ -43,6 +59,10 @@ server {
   }
   # Password protected end points
   location ~ ^/kibana-int/dashboard/.*$ {
+    <% if node['kibana']['web_user'] %>
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/htpasswd;
+    <% end %>
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
     <% if node[:kibana][:es_user] %>
@@ -50,6 +70,10 @@ server {
     <% end %>
   }
   location ~ ^/kibana-int/temp.*$ {
+    <% if node['kibana']['web_user'] %>
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/htpasswd;
+    <% end %>
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
     <% if node[:kibana][:es_user] %>
