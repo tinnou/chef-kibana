@@ -19,7 +19,7 @@
 
 include_recipe "git"
 
-es_instances = node[:opsworks][:layers][['kibana']['es_role']][:instances]
+es_instances = node[:opsworks][:layers][node['kibana']['es_role']][:instances]
 es_hosts = es_instances.map{ |name, attrs| attrs['private_ip'] }
 
 unless es_hosts.empty?
