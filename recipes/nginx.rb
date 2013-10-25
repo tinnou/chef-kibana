@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+require 'base64'
 
 node.set['nginx']['default_site_enabled'] = node['kibana']['nginx']['enable_default_site']
 

@@ -16,26 +16,44 @@ server {
   location ~ ^/_aliases$ {
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
+    <% if node[:es_user] %>
+    proxy_set_header Authorization "Basic <%= Base64.encode64("#{node[:es_user]}:#{node[:es_password]}").chomp %>"
+    <% end %>
   }
   location ~ ^/_nodes$ {
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
+    <% if node[:es_user] %>
+    proxy_set_header Authorization "Basic <%= Base64.encode64("#{node[:es_user]}:#{node[:es_password]}").chomp %>"
+    <% end %>
   }
   location ~ ^/.*/_search$ {
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
+    <% if node[:es_user] %>
+    proxy_set_header Authorization "Basic <%= Base64.encode64("#{node[:es_user]}:#{node[:es_password]}").chomp %>"
+    <% end %>
   }
   location ~ ^/.*/_mapping$ {
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
+    <% if node[:es_user] %>
+    proxy_set_header Authorization "Basic <%= Base64.encode64("#{node[:es_user]}:#{node[:es_password]}").chomp %>"
+    <% end %>
   }
   # Password protected end points
   location ~ ^/kibana-int/dashboard/.*$ {
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
+    <% if node[:es_user] %>
+    proxy_set_header Authorization "Basic <%= Base64.encode64("#{node[:es_user]}:#{node[:es_password]}").chomp %>"
+    <% end %>
   }
   location ~ ^/kibana-int/temp.*$ {
     proxy_pass http://<%= @es_server %>:<%= @es_port %>;
     proxy_read_timeout 90;
+    <% if node[:es_user] %>
+    proxy_set_header Authorization "Basic <%= Base64.encode64("#{node[:es_user]}:#{node[:es_password]}").chomp %>"
+    <% end %>
   }
 }
